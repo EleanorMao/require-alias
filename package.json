@@ -1,0 +1,26 @@
+{
+  "name": "require-alias",
+  "version": "1.0.0",
+  "description": "add alias when require",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EleanorMao/require-alias.git"
+  },
+  "keywords": [
+    "alias",
+    "require"
+  ],
+  "author": "EleanorMao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EleanorMao/require-alias/issues"
+  },
+  "homepage": "https://github.com/EleanorMao/require-alias#readme",
+  "engines": {
+    "node": ">=6.0.0"
+  }
+}
