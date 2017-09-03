@@ -7,35 +7,32 @@ const Module = require('module').Module
 const old_findPath = Module._findPath
 
 const ALIAS = {}
+const _pathCache = {}
 
 Module._findPath = function (request, paths, isMain) {
-  var aliasKey = Object.keys(ALIAS)
-  for (var i = 0, len = aliasKey.length; i < len; i++) {
-    var key = aliasKey[i]
-    if (request.startsWith(key + '/') || request === key) {
-      request = request.replace(key, '')
-      request = path.join(ALIAS[key], request)
-      break
-    }
-  }
-  return old_findPath(request, paths, isMain)
-}
+  var cacheKey = request + '\x00' + (paths.length === 1 ? paths[0] : paths.join('\x00'))
+  var _request = _pathCache[cacheKey]
 
-function assign (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i]
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key]
+  if (!_request) {
+    _request = request
+    var aliasKey = Object.keys(ALIAS)
+    for (var i = 0, len = aliasKey.length; i < len; i++) {
+      var key = aliasKey[i]
+      if (request.startsWith(key + '/') || request === key) {
+        request = request.replace(key, '')
+        _request = path.join(ALIAS[key], request)
+        _pathCache[cacheKey] = _request
+        break
       }
     }
   }
-  return target
+
+  return old_findPath(_request, paths, isMain)
 }
 
 function setAlias (alias, path) {
   if (typeof alias === 'object') {
-    assign(ALIAS, alias)
+    Object.assign(ALIAS, alias)
   } else if (typeof alias === 'string' && typeof path === 'string') {
     ALIAS[alias] = path
   } else {

@@ -1,6 +1,6 @@
 {
-  "name": "require-alias",
-  "version": "1.0.0",
+  "name": "node-require-alias",
+  "version": "1.0.1",
   "description": "add alias when require",
   "main": "index.js",
   "scripts": {
